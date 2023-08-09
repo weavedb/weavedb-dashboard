@@ -30,7 +30,6 @@ export default function Home() {
     "v0.7.0",
   ]
   const [chartData, setChartData] = useState([])
-  const [contractCount, setContractCount] = useState([])
 
   const dataFormatter = (number) => {
     return Intl.NumberFormat("us").format(number).toString()
