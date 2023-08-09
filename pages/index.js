@@ -1,4 +1,4 @@
-import { Card, Title, BarChart, Subtitle } from "@tremor/react"
+import { Card, Title, BarChart, Subtitle, Metric, Text } from "@tremor/react"
 import { useEffect, useState } from "react"
 
 export default function Home() {
@@ -30,6 +30,7 @@ export default function Home() {
     "v0.7.0",
   ]
   const [chartData, setChartData] = useState([])
+  const [totalCount, setTotalCount] = useState(0)
 
   const dataFormatter = (number) => {
     return Intl.NumberFormat("us").format(number).toString()
@@ -82,6 +83,9 @@ export default function Home() {
         const newData = await Promise.all(
           srcTxIds.map(async (srcTxId, index) => {
             const data = await fetchData(srcTxId)
+            const itemCount = data?.paging?.items || 0
+            setTotalCount((prevTotal) => prevTotal + itemCount)
+
             return {
               name: versions[index],
               "Number of deployed database": data?.paging?.items,
@@ -98,6 +102,21 @@ export default function Home() {
 
   return (
     <>
+      <br />
+      <br />
+      <Card
+        className="max-w-xs mx-auto"
+        decoration="top"
+        decorationColor="indigo"
+      >
+        <Text>Deployed Database</Text>
+        <Metric>{totalCount}</Metric>
+      </Card>
+      <br />
+      <br />
+      <br />
+      <br />
+
       <Card>
         <Title>WeaveDB</Title>
         <Subtitle>
@@ -108,7 +127,7 @@ export default function Home() {
           data={chartData}
           index="name"
           categories={["Number of deployed database"]}
-          colors={["purple"]}
+          colors={["violet"]}
           valueFormatter={dataFormatter}
           yAxisWidth={48}
           showXAxis={false}
