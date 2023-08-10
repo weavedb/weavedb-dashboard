@@ -151,7 +151,7 @@ export default function Home() {
         decoration="top"
         decorationColor="indigo"
       >
-        <Text>Deployed Database</Text>
+        <Text>Total Database Deployed</Text>
         <Metric>{totalCount}</Metric>
       </Card>
       <br />
