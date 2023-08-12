@@ -1,18 +1,16 @@
-'use client'
-import { srcTxIds, versions } from '@/lib/const'
+"use client"
+import { srcTxIds, versions } from "@/lib/const"
 import { Card, Title, BarChart, Subtitle, Metric, Text } from "@tremor/react"
-import { dataFormatter, fetchDataByTxId } from '@/lib/func'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import Head from 'next/head'
-import Header from '@/components/Header'
-import { ChartData } from '@/lib/types'
+import { dataFormatter, fetchDataByTxId } from "@/lib/func"
+import Image from "next/image"
+import { useEffect, useState } from "react"
+import Head from "next/head"
+import Header from "@/components/Header"
+import { ChartData } from "@/lib/types"
 
 export default function Home() {
-
-
   const [chartData, setChartData] = useState<ChartData[]>([])
-  const [totalCount, setTotalCount] = useState(0)
+  const [totalCount, setTotalCount] = useState(null)
 
   const fetchData = async () => {
     try {
@@ -20,19 +18,24 @@ export default function Home() {
         srcTxIds.map(async (srcTxId, index) => {
           const data = await fetchDataByTxId(srcTxId)
           const itemCount = data?.paging?.items || 0
-          setTotalCount((prevTotal) => prevTotal + itemCount)
           return {
             name: versions[index],
             "Number of deployed database": data?.paging?.items,
+            itemCount,
           }
         })
       )
+      console.log(newData)
+      const total = newData.reduce(
+        (prevTotal, item) => prevTotal + item.itemCount,
+        0
+      )
+      setTotalCount(total)
       setChartData(newData)
     } catch (e) {
       console.error(e)
     }
   }
-
 
   useEffect(() => {
     fetchData()
@@ -55,7 +58,7 @@ export default function Home() {
         decorationColor="indigo"
       >
         <Text>Total Database Deployed</Text>
-        <Metric>{totalCount}</Metric>
+        <Metric>{totalCount ? totalCount : "Fetching Data....."}</Metric>
       </Card>
       <br />
       <br />
