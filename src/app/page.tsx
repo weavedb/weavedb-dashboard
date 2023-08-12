@@ -10,7 +10,7 @@ import { ChartData } from "@/lib/types"
 
 export default function Home() {
   const [chartData, setChartData] = useState<ChartData[]>([])
-  const [totalCount, setTotalCount] = useState(null)
+  const [totalCount, setTotalCount] = useState<number | null>(null)
 
   const fetchData = async () => {
     try {
