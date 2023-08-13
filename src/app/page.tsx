@@ -86,7 +86,7 @@ export default function Home() {
         {totalDeployment ? (
           <Metric>{totalDeployment}</Metric>
         ) : (
-          <Subtitle>"Loading....."</Subtitle>
+          <Subtitle>Loading.....</Subtitle>
         )}
       </Card>
       <br />
@@ -101,7 +101,7 @@ export default function Home() {
         {totalQueries ? (
           <Metric>{totalQueries}</Metric>
         ) : (
-          <Subtitle>"Loading....."</Subtitle>
+          <Subtitle>Loading.....</Subtitle>
         )}
       </Card>
       <br />
