@@ -2,12 +2,13 @@
 import { srcTxIds, versions } from "@/lib/const"
 import { Card, Title, BarChart, Subtitle, Metric, Text } from "@tremor/react"
 import { dataFormatter, fetchDataByTxId } from "@/lib/func"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import Head from "next/head"
 import Header from "@/components/Header"
 import { DeploymentData, SourceData } from "@/lib/types"
 
 export default function Home() {
+  const [totalQueries, setTotalQueries] = useState<number | null>(null)
   const [totalDeployment, setTotalDeployment] = useState<number | null>(null)
   const [deploymentData, setDeploymentData] = useState<DeploymentData[]>([])
 
@@ -30,6 +31,21 @@ export default function Home() {
     console.log("_totalDeployment", _totalDeployment)
   }
 
+  const fetchTotalQueries = async (sourceData: SourceData[]) => {
+    const _totalQueries = sourceData.reduce((total, source) => {
+      return (
+        total +
+        source.contracts.reduce(
+          (contractTotal, contract) =>
+            contractTotal + Number(contract?.interactions || 0),
+          0
+        )
+      )
+    }, 0)
+    setTotalQueries(_totalQueries)
+    console.log("_totalQueries:", _totalQueries)
+  }
+
   const fetchData = async () => {
     try {
       const newData = await Promise.all(
@@ -39,6 +55,7 @@ export default function Home() {
         })
       )
       fetchDeployedDatabase(newData)
+      fetchTotalQueries(newData)
     } catch (e) {
       console.error(e)
     }
@@ -74,9 +91,21 @@ export default function Home() {
       </Card>
       <br />
       <br />
-      <br />
-      <br />
+      <Card
+        className="max-w-xs mx-auto"
+        decoration="top"
+        decorationColor="indigo"
+      >
+        <Text>Total Write Queries</Text>
 
+        {totalQueries ? (
+          <Metric>{totalQueries}</Metric>
+        ) : (
+          <Subtitle>"Loading....."</Subtitle>
+        )}
+      </Card>
+      <br />
+      <br />
       <Card>
         <Title>WeaveDB</Title>
         <Subtitle>
