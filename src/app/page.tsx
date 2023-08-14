@@ -1,23 +1,40 @@
 "use client"
 import { srcTxIds, versions } from "@/lib/const"
-import { Card, Title, BarChart, Subtitle, Metric, Text } from "@tremor/react"
+import {
+  Card,
+  Title,
+  BarChart,
+  Subtitle,
+  Metric,
+  Text,
+  LineChart,
+} from "@tremor/react"
 import { dataFormatter, fetchDataByTxId } from "@/lib/func"
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Head from "next/head"
 import Header from "@/components/Header"
-import { DeploymentData, SourceData } from "@/lib/types"
+import {
+  MonthlyDeploymentData,
+  VersionDeploymentData,
+  SourceData,
+} from "@/lib/types"
 
 export default function Home() {
   const [totalQueries, setTotalQueries] = useState<number | null>(null)
   const [totalDeployment, setTotalDeployment] = useState<number | null>(null)
-  const [deploymentData, setDeploymentData] = useState<DeploymentData[]>([])
+  const [versionDeployment, setVersionDeployment] = useState<
+    VersionDeploymentData[]
+  >([])
+  const [monthlyDeployment, setMonthlyDeployment] = useState<
+    MonthlyDeploymentData[]
+  >([])
 
   const fetchDeployedDatabase = async (sourceData: SourceData[]) => {
     const _totalDeployment = sourceData.reduce((total, data) => {
       return total + (data?.paging?.items || 0)
     }, 0)
 
-    const _deployChartData: DeploymentData[] = ([] = sourceData.map(
+    const _versionDeployment: VersionDeploymentData[] = ([] = sourceData.map(
       (data, index) => {
         return {
           name: versions[index],
@@ -27,7 +44,7 @@ export default function Home() {
     ))
 
     setTotalDeployment(_totalDeployment)
-    setDeploymentData(_deployChartData)
+    setVersionDeployment(_versionDeployment)
     console.log("_totalDeployment", _totalDeployment)
   }
 
@@ -46,6 +63,35 @@ export default function Home() {
     console.log("_totalQueries:", _totalQueries)
   }
 
+  const fetchDeploymentByMonth = async (sourceData: SourceData[]) => {
+    const countsByMonth: Record<string, number> = {}
+
+    // Counting the contracts by month
+    sourceData.forEach((data) => {
+      data.contracts.forEach((contract) => {
+        const date = new Date(Number(contract.blockTimestamp) * 1000)
+        const monthYearKey = `${date.getFullYear()}-${String(
+          date.getMonth() + 1
+        ).padStart(2, "0")}`
+
+        countsByMonth[monthYearKey] = (countsByMonth[monthYearKey] || 0) + 1
+      })
+    })
+
+    // Converting to an array and sorting by date
+    const sortedDates = Object.keys(countsByMonth).sort()
+    let _accumulatedTotal = 0
+    const _monthlyDeployment = sortedDates.map((date) => {
+      _accumulatedTotal += countsByMonth[date]
+      return {
+        date,
+        Total: _accumulatedTotal,
+      }
+    })
+
+    setMonthlyDeployment(_monthlyDeployment)
+  }
+
   const fetchData = async () => {
     try {
       const newData = await Promise.all(
@@ -56,6 +102,7 @@ export default function Home() {
       )
       fetchDeployedDatabase(newData)
       fetchTotalQueries(newData)
+      fetchDeploymentByMonth(newData)
     } catch (e) {
       console.error(e)
     }
@@ -107,19 +154,31 @@ export default function Home() {
       <br />
       <br />
       <Card>
-        <Title>WeaveDB</Title>
-        <Subtitle>
-          Contract versions with their corresponding number of deployed database
-        </Subtitle>
+        <Title>Database Deployed For Each Contract Version</Title>
         <BarChart
           className="mt-6"
-          data={deploymentData}
+          data={versionDeployment}
           index="name"
           categories={["Number of deployed database"]}
           colors={["violet"]}
           valueFormatter={dataFormatter}
           yAxisWidth={48}
           showXAxis={false}
+          noDataText="Fetching Data....."
+        />
+      </Card>
+      <br />
+      <br />
+      <Card>
+        <Title>Cumulative Total Database Deployed</Title>
+        <LineChart
+          className="mt-6"
+          data={monthlyDeployment}
+          index="date"
+          categories={["Total"]}
+          colors={["emerald"]}
+          valueFormatter={dataFormatter}
+          yAxisWidth={40}
           noDataText="Fetching Data....."
         />
       </Card>
