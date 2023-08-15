@@ -22,3 +22,14 @@ export type MonthlyDeploymentData = {
   date: string
   "Total": number
 }
+
+export type YearlyDeploymentData = {
+  year: string
+  "Deployment Per Year": number
+  "Percentage Growth"?: number
+}
+
+export type MonthlyQueriesData = {
+  date: string
+  "Write Queries": number
+}
