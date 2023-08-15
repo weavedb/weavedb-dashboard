@@ -216,7 +216,7 @@ export default function Home() {
 
   return (
     <>
-      <div>
+      <div className="container mx-auto px-4">
         <Head>
           <title>WeaveDB Dashboard</title>
           <meta
@@ -227,117 +227,120 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <br />
-        <br />
-        <Card
-          className="max-w-xs mx-auto"
-          decoration="top"
-          decorationColor="indigo"
-        >
-          <Text>Total Database Deployed</Text>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="col-span-1">
+            <Card
+              className="max-w-xs mx-auto"
+              decoration="top"
+              decorationColor="indigo"
+            >
+              <Text>Total Database Deployed</Text>
 
-          {totalDeployment ? (
-            <Metric>{totalDeployment.toLocaleString()}</Metric>
-          ) : (
-            <Subtitle>Loading.....</Subtitle>
-          )}
-        </Card>
-        <br />
-        <br />
-        <Card
-          className="max-w-xs mx-auto"
-          decoration="top"
-          decorationColor="indigo"
-        >
-          <Text>Total Write Queries</Text>
+              {totalDeployment ? (
+                <Metric>{totalDeployment.toLocaleString()}</Metric>
+              ) : (
+                <Subtitle>Loading.....</Subtitle>
+              )}
+            </Card>
+          </div>
+          <div className="col-span-1">
+            <Card
+              className="max-w-xs mx-auto"
+              decoration="top"
+              decorationColor="indigo"
+            >
+              <Text>Total Write Queries</Text>
 
-          {totalQueries ? (
-            <Metric>{totalQueries.toLocaleString()}</Metric>
-          ) : (
-            <Subtitle>Loading.....</Subtitle>
-          )}
-        </Card>
-        <br />
-        <br />
+              {totalQueries ? (
+                <Metric>{totalQueries.toLocaleString()}</Metric>
+              ) : (
+                <Subtitle>Loading.....</Subtitle>
+              )}
+            </Card>
+          </div>
+          <div className="col-span-1">
+            <Card
+              className="max-w-xs mx-auto"
+              decoration="top"
+              decorationColor="indigo"
+            >
+              <Flex justifyContent="between" alignItems="center">
+                <Text>Growth Percentage</Text>
+                {yearlyGrowthRate ? (
+                  <BadgeDelta
+                    deltaType="moderateIncrease"
+                    isIncreasePositive={true}
+                    size="xs"
+                  >
+                    {yearlyGrowthRate?.toLocaleString() + "%"}
+                  </BadgeDelta>
+                ) : null}
+              </Flex>
+              {yearlyGrowthRate ? (
+                <Metric>{yearlyGrowthRate?.toLocaleString() + "%"}</Metric>
+              ) : null}
 
-        <Card
-          className="max-w-xs mx-auto"
-          decoration="top"
-          decorationColor="indigo"
-        >
-          <Flex justifyContent="between" alignItems="center">
-            <Text>Growth Percentage</Text>
-            {yearlyGrowthRate ? (
-              <BadgeDelta
-                deltaType="moderateIncrease"
-                isIncreasePositive={true}
-                size="xs"
-              >
-                {yearlyGrowthRate?.toLocaleString() + "%"}
-              </BadgeDelta>
-            ) : null}
-          </Flex>
-          {yearlyGrowthRate ? (
-            <Metric>{yearlyGrowthRate?.toLocaleString() + "%"}</Metric>
-          ) : null}
+              <BarChart
+                className="mt-6"
+                data={yearlyDeployment}
+                index="year"
+                categories={["Deployment Per Year"]}
+                colors={["violet"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={48}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
 
-          <BarChart
-            className="mt-6"
-            data={yearlyDeployment}
-            index="year"
-            categories={["Deployment Per Year"]}
-            colors={["violet"]}
-            valueFormatter={dataFormatter}
-            yAxisWidth={48}
-            noDataText="Fetching Data....."
-          />
-        </Card>
-        <br />
-        <br />
-        <Card>
-          <Title>Database Deployed For Each Contract Version</Title>
+          <div className="col-span-1">
+            <Card>
+              <Title>Cumulative Total Database Deployed</Title>
+              <LineChart
+                className="mt-6"
+                data={monthlyDeployment}
+                index="date"
+                categories={["Total"]}
+                colors={["emerald"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={40}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
+          <div className="col-span-1">
+            <Card>
+              <Title>Cumulative Total Write Queries</Title>
+              <LineChart
+                className="mt-6"
+                data={monthlyQueries}
+                index="date"
+                categories={["Write Queries"]}
+                colors={["emerald"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={40}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
+          <div className="col-span-1">
+            <Card>
+              <Title>Database Deployed For Each Contract Version</Title>
 
-          <BarChart
-            className="mt-6"
-            data={versionDeployment}
-            index="name"
-            categories={["Number of deployed database"]}
-            colors={["violet"]}
-            valueFormatter={dataFormatter}
-            yAxisWidth={48}
-            noDataText="Fetching Data....."
-          />
-        </Card>
+              <BarChart
+                className="mt-6"
+                data={versionDeployment}
+                index="name"
+                categories={["Number of deployed database"]}
+                colors={["violet"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={48}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
+        </div>
         <br />
-        <br />
-        <Card>
-          <Title>Cumulative Total Database Deployed</Title>
-          <LineChart
-            className="mt-6"
-            data={monthlyDeployment}
-            index="date"
-            categories={["Total"]}
-            colors={["emerald"]}
-            valueFormatter={dataFormatter}
-            yAxisWidth={40}
-            noDataText="Fetching Data....."
-          />
-        </Card>
-        <br />
-        <br />
-        <Card>
-          <Title>Cumulative Total Write Queries</Title>
-          <LineChart
-            className="mt-6"
-            data={monthlyQueries}
-            index="date"
-            categories={["Write Queries"]}
-            colors={["emerald"]}
-            valueFormatter={dataFormatter}
-            yAxisWidth={40}
-            noDataText="Fetching Data....."
-          />
-        </Card>
       </div>
     </>
   )
