@@ -22,6 +22,7 @@ import {
   VersionDeploymentData,
   SourceData,
 } from "@/lib/types"
+import Background from "@/components/Background"
 
 export default function Home() {
   const [totalQueries, setTotalQueries] = useState<number | null>(null)
@@ -214,134 +215,142 @@ export default function Home() {
 
   return (
     <>
-      <div className="container mx-auto px-4">
-        <Head>
-          <title>WeaveDB Dashboard</title>
-          <meta
-            name="description"
-            content="NoSQL Database as a Smart Contract"
-          />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Header />
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
-          <div className="col-span-1 lg:col-span-2 lg:flex lg:flex-col lg:space-y-6">
-            {/* Card 1 */}
-            <Card
-              className="max-w-xs mx-auto lg:mb-auto"
-              decoration="top"
-              decorationColor="indigo"
-            >
-              <Text>Total Database Deployed</Text>
-
-              {totalDeployment ? (
-                <Metric>{totalDeployment.toLocaleString()}</Metric>
-              ) : (
-                <Subtitle>Loading.....</Subtitle>
-              )}
-            </Card>
-            {/* Card 2 */}
-            <Card
-              className="max-w-xs mx-auto lg:mt-auto"
-              decoration="top"
-              decorationColor="indigo"
-            >
-              <Text>Total Write Queries</Text>
-
-              {totalQueries ? (
-                <Metric>{totalQueries.toLocaleString()}</Metric>
-              ) : (
-                <Subtitle>Loading.....</Subtitle>
-              )}
-            </Card>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            {/* Line Chart 1 */}
-            <Card>
-              <Title>Cumulative Total Database Deployed</Title>
-              <LineChart
-                className="mt-6"
-                data={monthlyDeployment}
-                index="date"
-                categories={["Total"]}
-                colors={["emerald"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={48}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            {/* Line Chart 2 */}
-            <Card>
-              <Title>Cumulative Total Write Queries</Title>
-              <LineChart
-                className="mt-6"
-                data={monthlyQueries}
-                index="date"
-                categories={["Write Queries"]}
-                colors={["emerald"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={48}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            {/* Bar Chart 1 */}
-            <Card
-              className="max-w-xs mx-auto"
-              decoration="top"
-              decorationColor="indigo"
-            >
-              <Flex justifyContent="between" alignItems="center">
-                <Text>Growth Percentage</Text>
-                {yearlyGrowthRate ? (
-                  <BadgeDelta
-                    deltaType="moderateIncrease"
-                    isIncreasePositive={true}
-                    size="xs"
-                  >
-                    {yearlyGrowthRate?.toLocaleString() + "%"}
-                  </BadgeDelta>
-                ) : null}
-              </Flex>
-              {yearlyGrowthRate ? (
-                <Metric>{yearlyGrowthRate?.toLocaleString() + "%"}</Metric>
-              ) : null}
-
-              <BarChart
-                className="mt-6"
-                data={yearlyDeployment}
-                index="year"
-                categories={["Deployment Per Year"]}
-                colors={["violet"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={48}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
-          <div className="col-span-1 lg:col-span-4">
-            {/* Bar Chart 2 */}
-            <Card>
-              <Title>Database Deployed For Each Contract Version</Title>
-
-              <BarChart
-                className="mt-6"
-                data={versionDeployment}
-                index="name"
-                categories={["Number of deployed database"]}
-                colors={["violet"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={48}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
+      <div className="relative min-h-screen">
+        <div className="absolute inset-0 z-[-1] w-full h-full">
+          <Background />
         </div>
-        <br />
+        <div className="container mx-auto px-4 dark">
+          <Head>
+            <title>WeaveDB Dashboard</title>
+            <meta
+              name="description"
+              content="NoSQL Database as a Smart Contract"
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <Header />
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
+            <div className="col-span-1 lg:col-span-2 lg:flex lg:flex-col lg:space-y-6">
+              {/* Card 1 */}
+              <Card
+                className="max-w-xs mx-auto lg:mb-auto"
+                decoration="top"
+                decorationColor="violet"
+              >
+                <Text>Total Database Deployed</Text>
+
+                {totalDeployment ? (
+                  <Metric>{totalDeployment.toLocaleString()}</Metric>
+                ) : (
+                  <Subtitle>Loading.....</Subtitle>
+                )}
+              </Card>
+              {/* Card 2 */}
+              <Card
+                className="max-w-xs mx-auto lg:mt-auto"
+                decoration="top"
+                decorationColor="violet"
+              >
+                <Text>Total Write Queries</Text>
+
+                {totalQueries ? (
+                  <Metric>{totalQueries.toLocaleString()}</Metric>
+                ) : (
+                  <Subtitle>Loading.....</Subtitle>
+                )}
+              </Card>
+            </div>
+            <div className="col-span-1 lg:col-span-2">
+              {/* Line Chart 1 */}
+              <Card>
+                <Title>Cumulative Total Database Deployed</Title>
+                <LineChart
+                  className="mt-6"
+                  data={monthlyDeployment}
+                  index="date"
+                  categories={["Total"]}
+                  colors={["emerald"]}
+                  valueFormatter={dataFormatter}
+                  yAxisWidth={48}
+                  noDataText="Fetching Data....."
+                />
+              </Card>
+            </div>
+            <div className="col-span-1 lg:col-span-2">
+              {/* Line Chart 2 */}
+              <Card>
+                <Title>Cumulative Total Write Queries</Title>
+                <LineChart
+                  className="mt-6"
+                  data={monthlyQueries}
+                  index="date"
+                  categories={["Write Queries"]}
+                  colors={["emerald"]}
+                  valueFormatter={dataFormatter}
+                  yAxisWidth={48}
+                  noDataText="Fetching Data....."
+                />
+              </Card>
+            </div>
+            <div className="col-span-1 lg:col-span-2">
+              {/* Bar Chart 1 */}
+              <Card
+                className="max-w-xs mx-auto"
+                decoration="top"
+                decorationColor="violet"
+              >
+                <Flex justifyContent="between" alignItems="center">
+                  <Text>Growth Percentage</Text>
+                  {yearlyGrowthRate ? (
+                    <BadgeDelta
+                      deltaType="moderateIncrease"
+                      isIncreasePositive={true}
+                      size="xs"
+                    >
+                      {yearlyGrowthRate?.toLocaleString() + "%"}
+                    </BadgeDelta>
+                  ) : null}
+                </Flex>
+                {yearlyGrowthRate ? (
+                  <Metric>{yearlyGrowthRate?.toLocaleString() + "%"}</Metric>
+                ) : null}
+
+                <BarChart
+                  className="mt-6"
+                  data={yearlyDeployment}
+                  index="year"
+                  categories={["Deployment Per Year"]}
+                  colors={["fuchsia"]}
+                  valueFormatter={dataFormatter}
+                  yAxisWidth={48}
+                  noDataText="Fetching Data....."
+                />
+              </Card>
+            </div>
+            <div className="col-span-1 lg:col-span-4">
+              {/* Bar Chart 2 */}
+              <Card>
+                <Title>Database Deployed For Each Contract Version</Title>
+
+                <BarChart
+                  className="mt-6"
+                  data={versionDeployment}
+                  index="name"
+                  categories={["Number of deployed database"]}
+                  colors={["fuchsia"]}
+                  valueFormatter={dataFormatter}
+                  yAxisWidth={48}
+                  noDataText="Fetching Data....."
+                />
+              </Card>
+            </div>
+          </div>
+          <br />
+        </div>
       </div>
     </>
   )
