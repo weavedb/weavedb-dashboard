@@ -46,7 +46,7 @@ export default function Home() {
     const _versionDeployment: VersionDeploymentData[] = ([] = sourceData.map(
       (data, index) => {
         return {
-          name: versions[index],
+          name: versions[index].version,
           "Number of deployed database": data?.paging?.items,
         }
       }
@@ -55,6 +55,7 @@ export default function Home() {
     setTotalDeployment(_totalDeployment)
     setVersionDeployment(_versionDeployment)
     console.log("_totalDeployment", _totalDeployment)
+    console.log("_versionDeployment", _versionDeployment)
   }
 
   const fetchTotalQueries = async (sourceData: SourceData[]) => {
@@ -76,13 +77,9 @@ export default function Home() {
     const countsByMonth: Record<string, number> = {}
 
     // Counting the contracts by month
-    sourceData.forEach((data) => {
+    sourceData.forEach((data, index) => {
       data.contracts.forEach((contract) => {
-        const date = new Date(Number(contract.blockTimestamp) * 1000)
-        const monthYearKey = `${date.getFullYear()}-${String(
-          date.getMonth() + 1
-        ).padStart(2, "0")}`
-
+        const monthYearKey = versions[index].monthYear
         countsByMonth[monthYearKey] = (countsByMonth[monthYearKey] || 0) + 1
       })
     })
@@ -99,16 +96,15 @@ export default function Home() {
     })
 
     setMonthlyDeployment(_monthlyDeployment)
+    console.log("_monthlyDeployment:", _monthlyDeployment)
   }
 
   const fetchDeploymentPerYear = async (sourceData: SourceData[]) => {
     const countsByYear: Record<string, number> = {}
 
-    sourceData.forEach((data) => {
+    sourceData.forEach((data, index) => {
       data.contracts.forEach((contract) => {
-        const date = new Date(Number(contract.blockTimestamp) * 1000)
-        const yearKey = date.getFullYear()
-
+        const yearKey = versions[index].year
         countsByYear[yearKey] = (countsByYear[yearKey] || 0) + 1
       })
     })
@@ -139,6 +135,7 @@ export default function Home() {
     }
 
     setYearlyDeployment(_yearlyDeployment)
+    console.log("_yearlyDeployment:", _yearlyDeployment)
   }
 
   const fetchQueriesByMonth = async (sourceData: SourceData[]) => {
@@ -200,6 +197,7 @@ export default function Home() {
           return _data
         })
       )
+      console.log("newData", newData)
       fetchDeployedDatabase(newData)
       fetchTotalQueries(newData)
       fetchDeploymentByMonth(newData)

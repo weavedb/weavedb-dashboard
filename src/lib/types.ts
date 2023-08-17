@@ -13,6 +13,12 @@ export type SourceData = {
   contracts: Contracts[]
 }
 
+export type VersionData = {
+  version: string
+  monthYear: string
+  year: string
+}
+
 export type VersionDeploymentData = {
   name: string
   "Number of deployed database": number
@@ -20,7 +26,7 @@ export type VersionDeploymentData = {
 
 export type MonthlyDeploymentData = {
   date: string
-  "Total": number
+  Total: number
 }
 
 export type YearlyDeploymentData = {
