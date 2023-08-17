@@ -225,10 +225,11 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
+          <div className="col-span-1 lg:col-span-2 lg:flex lg:flex-col lg:space-y-6">
+            {/* Card 1 */}
             <Card
-              className="max-w-xs mx-auto"
+              className="max-w-xs mx-auto lg:mb-auto"
               decoration="top"
               decorationColor="indigo"
             >
@@ -240,10 +241,9 @@ export default function Home() {
                 <Subtitle>Loading.....</Subtitle>
               )}
             </Card>
-          </div>
-          <div className="col-span-1">
+            {/* Card 2 */}
             <Card
-              className="max-w-xs mx-auto"
+              className="max-w-xs mx-auto lg:mt-auto"
               decoration="top"
               decorationColor="indigo"
             >
@@ -256,7 +256,40 @@ export default function Home() {
               )}
             </Card>
           </div>
-          <div className="col-span-1">
+          <div className="col-span-1 lg:col-span-2">
+            {/* Line Chart 1 */}
+            <Card>
+              <Title>Cumulative Total Database Deployed</Title>
+              <LineChart
+                className="mt-6"
+                data={monthlyDeployment}
+                index="date"
+                categories={["Total"]}
+                colors={["emerald"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={48}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
+          <div className="col-span-1 lg:col-span-2">
+            {/* Line Chart 2 */}
+            <Card>
+              <Title>Cumulative Total Write Queries</Title>
+              <LineChart
+                className="mt-6"
+                data={monthlyQueries}
+                index="date"
+                categories={["Write Queries"]}
+                colors={["emerald"]}
+                valueFormatter={dataFormatter}
+                yAxisWidth={48}
+                noDataText="Fetching Data....."
+              />
+            </Card>
+          </div>
+          <div className="col-span-1 lg:col-span-2">
+            {/* Bar Chart 1 */}
             <Card
               className="max-w-xs mx-auto"
               decoration="top"
@@ -290,38 +323,8 @@ export default function Home() {
               />
             </Card>
           </div>
-
-          <div className="col-span-1">
-            <Card>
-              <Title>Cumulative Total Database Deployed</Title>
-              <LineChart
-                className="mt-6"
-                data={monthlyDeployment}
-                index="date"
-                categories={["Total"]}
-                colors={["emerald"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={40}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
-          <div className="col-span-1">
-            <Card>
-              <Title>Cumulative Total Write Queries</Title>
-              <LineChart
-                className="mt-6"
-                data={monthlyQueries}
-                index="date"
-                categories={["Write Queries"]}
-                colors={["emerald"]}
-                valueFormatter={dataFormatter}
-                yAxisWidth={40}
-                noDataText="Fetching Data....."
-              />
-            </Card>
-          </div>
-          <div className="col-span-1">
+          <div className="col-span-1 lg:col-span-4">
+            {/* Bar Chart 2 */}
             <Card>
               <Title>Database Deployed For Each Contract Version</Title>
 
