@@ -117,7 +117,7 @@ export default function Home() {
     )
       .map(([year, count]) => ({
         year: year.toString(),
-        "Deployment Per Year": count,
+        "Deployments Per Year": count,
       }))
       .sort((a, b) => Number(a.year) - Number(b.year))
 
@@ -125,9 +125,9 @@ export default function Home() {
     const length = _yearlyDeployment.length
     if (length >= 2) {
       const lastYearDeployment =
-        _yearlyDeployment[length - 1]["Deployment Per Year"]
+        _yearlyDeployment[length - 1]["Deployments Per Year"]
       const secondToLastYearDeployment =
-        _yearlyDeployment[length - 2]["Deployment Per Year"]
+        _yearlyDeployment[length - 2]["Deployments Per Year"]
 
       const percentageGrowth =
         (lastYearDeployment / secondToLastYearDeployment) * 100
@@ -306,7 +306,7 @@ export default function Home() {
                       className="mt-6"
                       data={yearlyDeployment}
                       index="year"
-                      categories={["Deployment Per Year"]}
+                      categories={["Deployments Per Year"]}
                       colors={["violet"]}
                       valueFormatter={dataFormatter}
                       yAxisWidth={48}

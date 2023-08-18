@@ -31,7 +31,7 @@ export type MonthlyDeploymentData = {
 
 export type YearlyDeploymentData = {
   year: string
-  "Deployment Per Year": number
+  "Deployments Per Year": number
   "Percentage Growth"?: number
 }
 
