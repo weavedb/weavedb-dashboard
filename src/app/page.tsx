@@ -88,14 +88,16 @@ export default function Home() {
     // Converting to an array and sorting by date
     const sortedDates = Object.keys(countsByMonth).sort()
     let _accumulatedTotal = 0
-    const _monthlyDeployment = sortedDates.map((date) => {
-      _accumulatedTotal += countsByMonth[date]
-      return {
-        date,
-        Total: _accumulatedTotal,
-      }
-    })
-
+    const _monthlyDeployment = [
+      { date: "2022-10", Total: 0 },
+      ...sortedDates.map((date) => {
+        _accumulatedTotal += countsByMonth[date]
+        return {
+          date,
+          Total: _accumulatedTotal,
+        }
+      }),
+    ]
     setMonthlyDeployment(_monthlyDeployment)
     console.log("_monthlyDeployment:", _monthlyDeployment)
   }
@@ -154,13 +156,16 @@ export default function Home() {
 
     const sortedDates = Object.keys(countsByMonth).sort()
     let _accumulatedTotal = 0
-    const _monthlyQueries = sortedDates.map((date) => {
-      _accumulatedTotal += countsByMonth[date]
-      return {
-        date,
-        "Write Queries": _accumulatedTotal,
-      }
-    })
+    const _monthlyQueries = [
+      { date: "2022-10", "Write Queries": 0 },
+      ...sortedDates.map((date) => {
+        _accumulatedTotal += countsByMonth[date]
+        return {
+          date,
+          "Write Queries": _accumulatedTotal,
+        }
+      }),
+    ]
 
     setMonthlyQueries(_monthlyQueries)
   }
