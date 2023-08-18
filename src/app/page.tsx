@@ -128,9 +128,7 @@ export default function Home() {
         _yearlyDeployment[length - 2]["Deployment Per Year"]
 
       const percentageGrowth =
-        ((lastYearDeployment - secondToLastYearDeployment) /
-          secondToLastYearDeployment) *
-        100
+        (lastYearDeployment / secondToLastYearDeployment) * 100
       const wholeNumberPercentageGrowth = Math.round(percentageGrowth)
       setYearlyGrowthRate(wholeNumberPercentageGrowth)
     }
@@ -324,7 +322,7 @@ export default function Home() {
                   data={yearlyDeployment}
                   index="year"
                   categories={["Deployment Per Year"]}
-                  colors={["fuchsia"]}
+                  colors={["violet"]}
                   valueFormatter={dataFormatter}
                   yAxisWidth={48}
                   noDataText="Fetching Data....."
@@ -341,7 +339,7 @@ export default function Home() {
                   data={versionDeployment}
                   index="name"
                   categories={["Number of deployed database"]}
-                  colors={["fuchsia"]}
+                  colors={["violet"]}
                   valueFormatter={dataFormatter}
                   yAxisWidth={48}
                   noDataText="Fetching Data....."
