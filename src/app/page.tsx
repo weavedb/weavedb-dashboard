@@ -21,6 +21,7 @@ import {
   MonthlyDeploymentData,
   VersionDeploymentData,
   SourceData,
+  MonthlyGrowthData,
 } from "@/lib/types"
 import Background from "@/components/Background"
 
@@ -38,7 +39,7 @@ export default function Home() {
   >([])
   const [yearlyGrowthRate, setYearlyGrowthRate] = useState<number | null>(null)
   const [monthlyQueries, setMonthlyQueries] = useState<MonthlyQueriesData[]>([])
-
+  const [monthlyGrowth, setMonthlyGrowth] = useState<MonthlyGrowthData[]>([])
   const fetchDeployedDatabase = async (sourceData: SourceData[]) => {
     const _totalDeployment = sourceData.reduce((total, data) => {
       return total + (data?.paging?.items || 0)
@@ -139,6 +140,30 @@ export default function Home() {
     console.log("_yearlyDeployment:", _yearlyDeployment)
   }
 
+  const fetchDeploymentGrowthPerMonth = async (sourceData: SourceData[]) => {
+    const countsByMonth: Record<string, number> = {}
+
+    sourceData.forEach((data) => {
+      data.contracts.forEach((contract) => {
+        const date = new Date(Number(contract.blockTimestamp) * 1000)
+        const monthYearKey = `${date.getFullYear()}-${String(
+          date.getMonth() + 1
+        ).padStart(2, "0")}`
+
+        countsByMonth[monthYearKey] = (countsByMonth[monthYearKey] || 0) + 1
+      })
+    })
+
+    const _monthlyGrowth: MonthlyGrowthData[] = Object.keys(countsByMonth)
+      .sort()
+      .map((key) => ({
+        date: key,
+        "Number of deployed database": countsByMonth[key],
+      }))
+    setMonthlyGrowth(_monthlyGrowth)
+    console.log("_monthlyGrowth:", _monthlyGrowth)
+  }
+
   const fetchQueriesByMonth = async (sourceData: SourceData[]) => {
     const countsByMonth: Record<string, number> = {}
 
@@ -168,6 +193,7 @@ export default function Home() {
     ]
 
     setMonthlyQueries(_monthlyQueries)
+    console.log("_monthlyQueries:", _monthlyQueries)
   }
 
   const fetchQueriesPerMonth = async (sourceData: SourceData[]) => {
@@ -207,6 +233,7 @@ export default function Home() {
       fetchDeploymentByMonth(newData)
       fetchDeploymentPerYear(newData)
       fetchQueriesByMonth(newData)
+      fetchDeploymentGrowthPerMonth(newData)
     } catch (e) {
       console.error(e)
     }
@@ -355,23 +382,45 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="p-4">
-                <div>
-                  {/* Bar Chart 2 */}
-                  <Card>
-                    <Title>Database Deployed For Each Contract Version</Title>
 
-                    <BarChart
-                      className="mt-6"
-                      data={versionDeployment}
-                      index="name"
-                      categories={["Number of deployed database"]}
-                      colors={["violet"]}
-                      valueFormatter={dataFormatter}
-                      yAxisWidth={48}
-                      noDataText="Fetching Data....."
-                    />
-                  </Card>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Bar Chart 3 */}
+                <div className="p-4">
+                  <div>
+                    <Card>
+                      <Title>Database Deployed Each Month</Title>
+                      <BarChart
+                        className="mt-6"
+                        data={monthlyGrowth}
+                        index="date"
+                        categories={["Number of deployed database"]}
+                        colors={["violet"]}
+                        valueFormatter={dataFormatter}
+                        yAxisWidth={48}
+                        noDataText="Fetching Data....."
+                      />
+                    </Card>
+                  </div>
+                </div>
+
+                <div className="p-4">
+                  <div>
+                    {/* Bar Chart 2 */}
+                    <Card>
+                      <Title>Database Deployed For Each Contract Version</Title>
+
+                      <BarChart
+                        className="mt-6"
+                        data={versionDeployment}
+                        index="name"
+                        categories={["Number of deployed database"]}
+                        colors={["violet"]}
+                        valueFormatter={dataFormatter}
+                        yAxisWidth={48}
+                        noDataText="Fetching Data....."
+                      />
+                    </Card>
+                  </div>
                 </div>
               </div>
             </div>
