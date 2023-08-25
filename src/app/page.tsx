@@ -21,7 +21,7 @@ import {
   MonthlyDeploymentData,
   VersionDeploymentData,
   SourceData,
-  MonthlyGrowthData,
+  MonthlyGrowthRateData,
 } from "@/lib/types"
 import Background from "@/components/Background"
 
@@ -39,7 +39,10 @@ export default function Home() {
   >([])
   const [yearlyGrowthRate, setYearlyGrowthRate] = useState<number | null>(null)
   const [monthlyQueries, setMonthlyQueries] = useState<MonthlyQueriesData[]>([])
-  const [monthlyGrowth, setMonthlyGrowth] = useState<MonthlyGrowthData[]>([])
+  const [monthlyGrowthRate, setMonthlyGrowthRate] = useState<
+    MonthlyGrowthRateData[]
+  >([])
+
   const fetchDeployedDatabase = async (sourceData: SourceData[]) => {
     const _totalDeployment = sourceData.reduce((total, data) => {
       return total + (data?.paging?.items || 0)
@@ -79,9 +82,13 @@ export default function Home() {
     const countsByMonth: Record<string, number> = {}
 
     // Counting the contracts by month
-    sourceData.forEach((data, index) => {
+    sourceData.forEach((data) => {
       data.contracts.forEach((contract) => {
-        const monthYearKey = versions[index].monthYear
+        const date = new Date(Number(contract.blockTimestamp) * 1000)
+        const monthYearKey = `${date.getFullYear()}-${String(
+          date.getMonth() + 1
+        ).padStart(2, "0")}`
+
         countsByMonth[monthYearKey] = (countsByMonth[monthYearKey] || 0) + 1
       })
     })
@@ -154,14 +161,23 @@ export default function Home() {
       })
     })
 
-    const _monthlyGrowth: MonthlyGrowthData[] = Object.keys(countsByMonth)
-      .sort()
-      .map((key) => ({
+    const sortedMonths = Object.keys(countsByMonth).sort()
+    const _monthlyGrowthRate: MonthlyGrowthRateData[] = []
+
+    let previousValue = 0
+    sortedMonths.forEach((key) => {
+      const growthRate = previousValue
+        ? ((countsByMonth[key] - previousValue) / previousValue) * 100
+        : 0
+      _monthlyGrowthRate.push({
         date: key,
-        "Number of deployed database": countsByMonth[key],
-      }))
-    setMonthlyGrowth(_monthlyGrowth)
-    console.log("_monthlyGrowth:", _monthlyGrowth)
+        "Growth Percentage": growthRate,
+      })
+      previousValue = countsByMonth[key]
+    })
+
+    setMonthlyGrowthRate(_monthlyGrowthRate)
+    console.log("_monthlyGrowthRate:", _monthlyGrowthRate)
   }
 
   const fetchQueriesByMonth = async (sourceData: SourceData[]) => {
@@ -384,16 +400,16 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Bar Chart 3 */}
+                {/* Line Chart 3 */}
                 <div className="p-4">
                   <div>
                     <Card>
-                      <Title>Database Deployed Each Month</Title>
-                      <BarChart
+                      <Title>Monthly Deployments Growth Rate</Title>
+                      <LineChart
                         className="mt-6"
-                        data={monthlyGrowth}
+                        data={monthlyGrowthRate}
                         index="date"
-                        categories={["Number of deployed database"]}
+                        categories={["Growth Percentage"]}
                         colors={["violet"]}
                         valueFormatter={dataFormatter}
                         yAxisWidth={48}

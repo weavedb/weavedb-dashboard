@@ -40,7 +40,7 @@ export type MonthlyQueriesData = {
   "Write Queries": number
 }
 
-export type MonthlyGrowthData = {
+export type MonthlyGrowthRateData = {
   date: string
-  "Number of deployed database": number
+  "Growth Percentage": number
 }
