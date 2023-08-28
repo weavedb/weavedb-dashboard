@@ -399,9 +399,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Line Chart 3 */}
-                <div className="p-4">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4" */}
+              {/* Line Chart 3 */}
+              {/* <div className="p-4">
                   <div>
                     <Card>
                       <Title>Monthly Deployments Growth Rate</Title>
@@ -417,28 +417,28 @@ export default function Home() {
                       />
                     </Card>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="p-4">
-                  <div>
-                    {/* Bar Chart 2 */}
-                    <Card>
-                      <Title>Database Deployed For Each Contract Version</Title>
+              {/* Bar Chart 2 */}
+              <div className="p-4">
+                <div>
+                  <Card>
+                    <Title>Database Deployed For Each Contract Version</Title>
 
-                      <BarChart
-                        className="mt-6"
-                        data={versionDeployment}
-                        index="name"
-                        categories={["Number of deployed database"]}
-                        colors={["violet"]}
-                        valueFormatter={dataFormatter}
-                        yAxisWidth={48}
-                        noDataText="Fetching Data....."
-                      />
-                    </Card>
-                  </div>
+                    <BarChart
+                      className="mt-6"
+                      data={versionDeployment}
+                      index="name"
+                      categories={["Number of deployed database"]}
+                      colors={["violet"]}
+                      valueFormatter={dataFormatter}
+                      yAxisWidth={48}
+                      noDataText="Fetching Data....."
+                    />
+                  </Card>
                 </div>
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>
