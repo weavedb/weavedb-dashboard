@@ -25,6 +25,7 @@ export const versions: VersionData[] = [
   { version: "v0.26.2", monthYear: "2023-06", year: "2023" },
   { version: "v0.26.3", monthYear: "2023-06", year: "2023" },
   { version: "v0.26.4", monthYear: "2023-07", year: "2023" },
+  { version: "v0.26.5", monthYear: "2023-09", year: "2023" },
   { version: "v0.27.0", monthYear: "2023-05", year: "2023" },
 ]
 
@@ -53,5 +54,6 @@ export const srcTxIds: string[] = [
   "-TBbRLWsP8wAlj8y5bh7RHRdwGJ7kT9urFvEbn1UomQ",
   "rTp2E6oipzJODmAGbqWbo2wzagoV7tt3JRyBsyVgo6A",
   "QhbIPso1lx8wbHx4c7225L9PkNYh-Djp6N_YCjqdr_E", //v0.26.4
+  "1pFdmXngB5A4TXvD1cHEGNVpqdEJBYjXSmSyvy6MQiQ", //v0.26.5
   "jsZqVEOGdMFAvVlof_WXi6DO5vWxhteiG91xVPiIwqQ", //v0.27.0
 ]
