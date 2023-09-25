@@ -21,7 +21,7 @@ export type VersionData = {
 
 export type VersionDeploymentData = {
   name: string
-  "Number of deployed database": number
+  "Deployed database count": number
 }
 
 export type MonthlyDeploymentData = {

@@ -52,7 +52,7 @@ export default function Home() {
       (data, index) => {
         return {
           name: versions[index].version,
-          "Number of deployed database": data?.paging?.items,
+          "Deployed database count": data?.paging?.items,
         }
       }
     ))
@@ -291,7 +291,7 @@ export default function Home() {
                     decoration="top"
                     decorationColor="violet"
                   >
-                    <Text>Total Database Deployed</Text>
+                    <Text>Total Databases Deployed</Text>
 
                     {totalDeployment ? (
                       <Metric>{totalDeployment.toLocaleString()}</Metric>
@@ -365,7 +365,7 @@ export default function Home() {
                   <div>
                     {/* Line Chart 1 */}
                     <Card>
-                      <Title>Cumulative Total Database Deployed</Title>
+                      <Title>Cumulative Total of Databases Deployed</Title>
                       <LineChart
                         className="mt-6"
                         data={monthlyDeployment}
@@ -423,13 +423,13 @@ export default function Home() {
               <div className="p-4">
                 <div>
                   <Card>
-                    <Title>Database Deployed For Each Contract Version</Title>
+                    <Title>Database Deployments per Contract Version</Title>
 
                     <BarChart
                       className="mt-6"
                       data={versionDeployment}
                       index="name"
-                      categories={["Number of deployed database"]}
+                      categories={["Deployed database count"]}
                       colors={["violet"]}
                       valueFormatter={dataFormatter}
                       yAxisWidth={48}
