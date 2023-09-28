@@ -7,6 +7,21 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'WeaveDB Dashboard',
   description: 'NoSQL Database as a Smart Contract',
+  
+  twitter: {
+    card: 'summary_large_image',
+    title: 'WeaveDB Dashboard',
+    description: 'NoSQL Database as a Smart Contract',
+    images: ['https://weavedb.dev/twitterImage.png'],
+  },
+  openGraph: {
+    title: 'WeaveDB Dashboard',
+    description: 'NoSQL Database as a Smart Contract',
+    url: 'https://dashboard.weavedb.dev',
+    images: ['https://weavedb.dev/twitterImage.png'],
+    locale: 'en_US',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
