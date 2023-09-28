@@ -278,6 +278,31 @@ export default function Home() {
               content="width=device-width, initial-scale=1"
             />
             <link rel="icon" href="/favicon.ico" />
+
+            {/* Open Graph / Facebook Meta Tags */}
+            <meta property="og:url" content="https://dashboard.weavedb.dev" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="WeaveDB Dashboard" />
+            <meta
+              property="og:description"
+              content="NoSQL Database as a Smart Contract"
+            />
+            <meta
+              property="og:image"
+              content="https://weavedb.dev/twitterImage.png"
+            />
+
+            {/* Twitter Meta Tags */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="WeaveDB Dashboard" />
+            <meta
+              name="twitter:description"
+              content="NoSQL Database as a Smart Contract"
+            />
+            <meta
+              name="twitter:image"
+              content="https://weavedb.dev/twitterImage.png"
+            />
           </Head>
           <Header />
 
