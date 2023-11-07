@@ -198,12 +198,12 @@ export default function Home() {
     const sortedDates = Object.keys(countsByMonth).sort()
     let _accumulatedTotal = 0
     const _monthlyQueries = [
-      { date: "2022-10", "Write Queries": 0 },
+      { date: "2022-10", "Transactions": 0 },
       ...sortedDates.map((date) => {
         _accumulatedTotal += countsByMonth[date]
         return {
           date,
-          "Write Queries": _accumulatedTotal,
+          "Transactions": _accumulatedTotal,
         }
       }),
     ]
@@ -231,7 +231,7 @@ export default function Home() {
       .sort()
       .map((key) => ({
         date: key,
-        "Write Queries": countsByMonth[key],
+        "Transactions": countsByMonth[key],
       }))
   }
 
@@ -297,7 +297,7 @@ export default function Home() {
                     decoration="top"
                     decorationColor="violet"
                   >
-                    <Text>Total Write Queries</Text>
+                    <Text>Total Transactions</Text>
 
                     {totalQueries ? (
                       <Metric>{totalQueries.toLocaleString()}</Metric>
@@ -371,12 +371,12 @@ export default function Home() {
                   <div>
                     {/* Line Chart 2 */}
                     <Card>
-                      <Title>Cumulative Total Write Queries</Title>
+                      <Title>Cumulative Total Transactions</Title>
                       <LineChart
                         className="mt-6"
                         data={monthlyQueries}
                         index="date"
-                        categories={["Write Queries"]}
+                        categories={["Transactions"]}
                         colors={["emerald"]}
                         valueFormatter={dataFormatter}
                         yAxisWidth={48}
