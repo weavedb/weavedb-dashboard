@@ -69,7 +69,7 @@ export default function Home() {
         total +
         source.contracts.reduce(
           (contractTotal, contract) =>
-            contractTotal + Number(contract?.interactions || 0),
+            contractTotal + Number(contract?.total || 0),
           0
         )
       )
@@ -191,7 +191,7 @@ export default function Home() {
         ).padStart(2, "0")}`
 
         countsByMonth[monthYearKey] =
-          (countsByMonth[monthYearKey] || 0) + Number(contract?.interactions)
+          (countsByMonth[monthYearKey] || 0) + Number(contract?.total)
       })
     })
 
@@ -223,7 +223,7 @@ export default function Home() {
         ).padStart(2, "0")}`
 
         countsByMonth[monthYearKey] =
-          (countsByMonth[monthYearKey] || 0) + Number(contract?.interactions)
+          (countsByMonth[monthYearKey] || 0) + Number(contract?.total)
       })
     })
 
