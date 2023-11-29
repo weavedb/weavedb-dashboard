@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'WeaveDB Dashboard',
   description: 'NoSQL Database as a Smart Contract',
+  icons: {
+    icon: 'favicon.svg',
+  },
   
   twitter: {
     card: 'summary_large_image',
