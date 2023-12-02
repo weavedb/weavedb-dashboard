@@ -269,11 +269,11 @@ export default function Home() {
         <div className="container mx-auto px-4 dark">
           <Header />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex flex-col justify-between md:col-span-1">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col justify-between md:w-1/3">
+              {/* Card 1 */}
               <div className="p-4">
                 <div>
-                  {/* Card 1 */}
                   <Card
                     className="max-w-xs mx-auto lg:mb-auto"
                     decoration="top"
@@ -289,9 +289,9 @@ export default function Home() {
                   </Card>
                 </div>
               </div>
+              {/* Card 2 */}
               <div className="p-4">
                 <div>
-                  {/* Card 2 */}
                   <Card
                     className="max-w-xs mx-auto lg:mt-auto"
                     decoration="top"
@@ -307,9 +307,9 @@ export default function Home() {
                   </Card>
                 </div>
               </div>
+              {/* Bar Chart 1 */}
               <div className="p-4">
                 <div>
-                  {/* Bar Chart 1 */}
                   <Card
                     className="max-w-xs mx-auto"
                     decoration="top"
@@ -347,13 +347,14 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 md:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4">
+
+            <div className="flex flex-col md:w-2/3">
+              <div className="flex flex-col md:flex-row">
+                {/* Line Chart 1 */}
+                <div className="p-4 md:w-1/2">
                   <div>
-                    {/* Line Chart 1 */}
                     <Card>
-                      <Title>Cumulative Total of Databases Deployed</Title>
+                      <Title>Cumulative Total Deployment</Title>
                       <LineChart
                         className="mt-6"
                         data={monthlyDeployment}
@@ -367,9 +368,9 @@ export default function Home() {
                     </Card>
                   </div>
                 </div>
-                <div className="p-4">
+                {/* Line Chart 2 */}
+                <div className="p-4 md:w-1/2">
                   <div>
-                    {/* Line Chart 2 */}
                     <Card>
                       <Title>Cumulative Total Transactions</Title>
                       <LineChart
@@ -386,26 +387,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4" */}
-              {/* Line Chart 3 */}
-              {/* <div className="p-4">
-                  <div>
-                    <Card>
-                      <Title>Monthly Deployments Growth Rate</Title>
-                      <LineChart
-                        className="mt-6"
-                        data={monthlyGrowthRate}
-                        index="date"
-                        categories={["Growth Percentage"]}
-                        colors={["violet"]}
-                        valueFormatter={dataFormatter}
-                        yAxisWidth={48}
-                        noDataText="Fetching Data....."
-                      />
-                    </Card>
-                  </div>
-                </div> */}
 
               {/* Bar Chart 2 */}
               <div className="p-4">
@@ -426,7 +407,6 @@ export default function Home() {
                   </Card>
                 </div>
               </div>
-              {/* </div> */}
             </div>
           </div>
         </div>
