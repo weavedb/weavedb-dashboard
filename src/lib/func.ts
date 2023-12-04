@@ -1,7 +1,7 @@
 export const fetchDataByTxId = async (srcTxId: string) => {
     try {
         const response = await fetch(
-            `https://gw.warp.cc/gateway/contracts-by-source?id=${srcTxId}`
+            `https://gw.warp.cc/gateway/contracts-by-source?id=${srcTxId}&totalInteractions=true`
         )
         const jsonData = await response.json()
         return jsonData
